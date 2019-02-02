@@ -4,7 +4,7 @@ import java.awt.Graphics
 
 abstract class Figure {
 
-    protected fun drawPixel(graphics: Graphics, x: Int, y: Int) {
+    protected open fun drawPixel(graphics: Graphics, x: Int, y: Int) {
         graphics.drawLine(x, y, x, y)
     }
 

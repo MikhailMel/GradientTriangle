@@ -3,30 +3,35 @@ package ru.scratty
 import java.awt.Color
 import java.awt.Graphics
 
-class FilledTriangle(
+open class FilledTriangle(
     var p0: Vertex,
     var p1: Vertex,
-    var p2: Vertex,
-    var color: Color
+    var p2: Vertex
 ): Figure() {
+
+    var color: Color = Color.black
 
     override fun draw(graphics: Graphics) {
         graphics.color = color
 
-        if (p0.y > p1.y) swap(p0, p1)
-        if (p0.y > p2.y) swap(p0, p2)
-        if (p1.y > p2.y) swap(p1, p2)
+        drawFilledTriangle(graphics, p0, p1, p2)
+    }
 
-        val height = p2.y - p0.y
+    protected fun drawFilledTriangle(graphics: Graphics, v0: Vertex, v1: Vertex, v2: Vertex) {
+        if (v0.y > v1.y) swap(v0, v1)
+        if (v0.y > v2.y) swap(v0, v2)
+        if (v1.y > v2.y) swap(v1, v2)
+
+        val height = v2.y - v0.y
         for (i in 0 until height) {
-            val secondHalf = i > (p1.y - p0.y) || p1.y == p0.y
-            val segmentHeight = if (secondHalf) p2.y - p1.y else p1.y - p0.y
+            val secondHalf = i > (v1.y - v0.y) || v1.y == v0.y
+            val segmentHeight = if (secondHalf) v2.y - v1.y else v1.y - v0.y
 
             val alpha = i.toFloat() / height
-            val beta = (i.toFloat() - if (secondHalf) p1.y - p0.y else 0) / segmentHeight
+            val beta = (i.toFloat() - if (secondHalf) v1.y - v0.y else 0) / segmentHeight
 
-            var a = p0 + (p2 - p0) * alpha
-            var b = if (secondHalf) p1 + (p2 - p1) * beta else p0 + (p1 - p0) * beta
+            var a = v0 + (v2 - v0) * alpha
+            var b = if (secondHalf) v1 + (v2 - v1) * beta else v0 + (v1 - v0) * beta
 
             if (a.x > b.x) {
                 a = b.apply { b = a }
@@ -34,7 +39,7 @@ class FilledTriangle(
 
             var j = a.x
             while (j < b.x) {
-                drawPixel(graphics, j ,p0.y + i)
+                drawPixel(graphics, j ,v0.y + i)
                 j++
             }
         }

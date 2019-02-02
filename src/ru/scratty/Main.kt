@@ -20,13 +20,20 @@ class Main {
             }
 
             val emptyTriangle = EmptyTriangle(Vertex(50, 50), Vertex(100, 72), Vertex(67, 150))
-            val filledTriangle = FilledTriangle(Vertex(125, 33), Vertex(149, 200), Vertex(169, 117), Color.red)
+
+            val filledTriangle = FilledTriangle(Vertex(125, 33), Vertex(149, 200), Vertex(169, 117))
+            filledTriangle.color = Color.red
+
+            val gradientTriangle = GradientTriangle(Vertex(78, 233), Vertex(99, 340), Vertex(317, 188),
+                Color.red, Color.green, Color.blue)
+
 
             val renderPanel = object: JPanel() {
                 override fun paintComponent(g: Graphics?) {
                     if (g != null) {
                         emptyTriangle.draw(g)
                         filledTriangle.draw(g)
+                        gradientTriangle.draw(g)
                     }
                 }
             }
